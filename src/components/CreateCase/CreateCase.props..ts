@@ -1,4 +1,5 @@
 export interface ICreateCase {
   isOpen: boolean;
-  modalOpenHandler?: () => void;
+  closeModal: () => void;
+  // actionModal: () => void;
 }

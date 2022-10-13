@@ -105,7 +105,7 @@ const JudicialCases = ({
       </Row>
       <CreateCase
         isOpen={isModalOpen}
-        modalOpenHandler={() => setIsModalOpen(false)}
+        closeModal={() => setIsModalOpen(false)}
       />
     </>
   );

@@ -2,10 +2,15 @@ import { Col, Row } from 'reactstrap';
 import { Field } from 'formik';
 import { IFieldFormProps } from './FormFieldTypes';
 import { VALUE_FIELDS_FOR_FORM } from 'constants/app_сonstants';
+import styles from './FromFieldRaw.module.css';
 
-const FieldForm = ({ label, value, typeInput = 'text' }: IFieldFormProps) => {
+const FieldFormRow = ({
+  label,
+  value,
+  typeInput = 'text',
+}: IFieldFormProps) => {
   return (
-    <Col>
+    <Row xs='2' className={styles.paddingBottom}>
       <h6>
         <strong>{VALUE_FIELDS_FOR_FORM[label]}</strong>
       </h6>
@@ -21,12 +26,13 @@ const FieldForm = ({ label, value, typeInput = 'text' }: IFieldFormProps) => {
                 id='example-date-input'
                 {...field}
               />
+              {/* {console.log(field)} */}
             </div>
           )}
         </Field>
       )}
-    </Col>
+    </Row>
   );
 };
 
-export default FieldForm;
+export default FieldFormRow;
