@@ -19,7 +19,6 @@ const JudicialCases = ({
   const [listCasesSorted, setListCasesSorted] = useState(listJudicialCases);
   const [searchInput, setSearchInput] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  console.log(isModalOpen);
 
   useEffect(() => {
     if (areaId) {

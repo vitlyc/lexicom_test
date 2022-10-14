@@ -22,9 +22,10 @@ const FieldFormRow = ({
             <div>
               <input
                 className='form-control'
-                type={typeInput}
                 id='example-date-input'
+                type={typeInput}
                 {...field}
+                value={value}
               />
               {/* {console.log(field)} */}
             </div>

@@ -3,9 +3,11 @@ import {
   ModesHearing,
   IItemHearings,
   IJudicialHearingData,
+  IJudicialCaseAdd,
   IParticipants,
   IJudicialCaseData,
-  IDataInfoJudicialHearingRequest, IDocument,
+  IDataInfoJudicialHearingRequest,
+  IDocument,
 } from './types';
 export type History = RouteComponentProps['history'];
 
@@ -14,6 +16,7 @@ export enum ActionType {
   ADD_AUDIO_FILE = 'ADD_AUDIO_FILE',
   ADD_DOCX_FILE = 'ADD_DOCX_FILE',
   ADD_JUDICIAL_HEARING = 'ADD_JUDICIAL_HEARING',
+  ADD_JUDICIAL_CASE = 'ADD_JUDICIAL_CASE',
   DELETE_JUDICIAL_HEARING = 'DELETE_JUDICIAL_HEARING',
   GET_INFO_HEARING = 'GET_INFO_HEARING',
   GET_INFO_HEARING_CASE = 'GET_INFO_HEARING_CASE',
@@ -31,7 +34,7 @@ export enum ActionType {
   SET_DOCUMENT = 'SET_DOCUMENT',
   SET_SELECTED_DOCUMENT = 'SET_SELECTED_DOCUMENT',
   UPDATE_DOCUMENT_TEXT = 'UPDATE_DOCUMENT_TEXT',
-  DELETE_DOCUMENT= 'DELETE_DOCUMENT',
+  DELETE_DOCUMENT = 'DELETE_DOCUMENT',
 }
 
 export interface ISetSelectedJudicialHearingId {
@@ -78,7 +81,11 @@ export interface IAddJudicialHearing {
   type: ActionType.ADD_JUDICIAL_HEARING;
   payload: { data: IJudicialHearingData; history: History };
 }
-
+//===
+export interface IAddJudicialCase {
+  type: ActionType.ADD_JUDICIAL_CASE;
+  payload: { data: IJudicialCaseAdd };
+}
 export interface IDeleteJudicialHearing {
   type: ActionType.DELETE_JUDICIAL_HEARING;
   payload: string;
@@ -116,7 +123,7 @@ export interface ISetSelectedJudicialHearingNumber {
 
 export interface ISetDocument {
   type: ActionType.SET_DOCUMENT;
-  payload: {document: IDocument, documentText: string | undefined};
+  payload: { document: IDocument; documentText: string | undefined };
 }
 
 export interface ISetSelectedDocument {
@@ -126,12 +133,12 @@ export interface ISetSelectedDocument {
 
 export interface IUpdateDocumentText {
   type: ActionType.UPDATE_DOCUMENT_TEXT;
-  payload: { text: Blob, id: number };
+  payload: { text: Blob; id: number };
 }
 
 export interface IDeleteDocument {
   type: ActionType.DELETE_DOCUMENT;
-  payload: number
+  payload: number;
 }
 
 export type Action =
@@ -150,5 +157,4 @@ export type Action =
   | ISetDocument
   | ISetSelectedDocument
   | IUpdateDocumentText
-  | IDeleteDocument
-  ;
+  | IDeleteDocument;

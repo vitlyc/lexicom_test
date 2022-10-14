@@ -1,53 +1,12 @@
-import styles from './CreateCase.module.css';
-import {
-  Button,
-  Modal,
-  ModalBody,
-  Label,
-  Row,
-  Col,
-  Input,
-  CustomInput,
-} from 'reactstrap';
-import { Formik, Field, Form } from 'formik';
-import { FormField } from 'components';
+import { Button, Modal, Row, Col } from 'reactstrap';
+import { Formik, Form } from 'formik';
 import FormFieldRow from '../FormField/FormFieldRow';
 import CheckBox from '../CheckBox/CheckBox';
-
 import { ICreateCase } from './CreateCase.props.';
-import { prependOnceListener } from 'process';
 import logoLightSvg from 'assets/images/logo-light.svg';
-
-const enum INITIAL_STATES {
-  uid = '31MS0041-01-2021-000604-52',
-  case_id = '2-493/2021',
-  plaintiff = 'Истец',
-  defendant = 'Ответчик',
-  date = '25.11.2021',
-  lastname = 'Иванова',
-  name = 'Марина',
-  surname = 'Ивановна',
-  familyName = '',
-  reg_address = 'г. Белгород, ул. Радости,  5-21',
-  res_address = 'г. Белгород, ул. Радости,  5-21',
-  type = 0,
-  phone = '+ 7 000 000 0000',
-  birthday = '25.11.1988',
-  bank = 'БЕЛГОРОДСКОЕ ОТДЕЛЕНИЕ N8592...',
-  company = 'Название компании',
-  inn = '123456789123',
-  ogrn = '123400',
-  legal_address = 'г. Белгород, ул. Радости,  5-21',
-  mailing_address = 'г. Белгород, ул. Радости,  5-21',
-  kpp = '000000000',
-  pc = '10318810007009063768',
-  bic = '0890009083',
-  kc = '10318810007009063768',
-}
+import { addJudicialCase } from 'store/actions';
 
 const CreateCase = ({ isOpen, closeModal }: ICreateCase) => {
-  const closeCreateCase = () => {};
-
   return (
     <Modal centered isOpen={isOpen} toggle={closeModal}>
       <div onClick={closeModal} className='modal-closebtn'>
@@ -65,49 +24,52 @@ const CreateCase = ({ isOpen, closeModal }: ICreateCase) => {
       </div>
       <Formik
         initialValues={{
-          uid: '31MS0041-01-2021-000604-52',
+          uid: '31MS0041-01-2021-000604-521',
           case_id: '2-493/2021',
-          plaintiff: 'Истец',
-          defendant: 'Ответчик',
-          date: '25.11.2021',
-          name: 'Марина',
-          surname: 'Ивановна',
-          familyName: 'Иванова',
-          reg_address: 'г. Белгород, ул. Радости,  5-21',
-          res_address: 'г. Белгород, ул. Радости,  5-21',
-          phone: '+ 7 000 000 0000',
-          birthday: '25.11.1988',
-          bank: 'БЕЛГОРОДСКОЕ ОТДЕЛЕНИЕ N8592...',
-          company: 'Название компании',
-          inn: '123456789123',
-          ogrn: '123400',
-          legal_address: 'г. Белгород, ул. Радости,  5-21',
-          mailing_address: 'г. Белгород, ул. Радости,  5-21',
-          kpp: '000000000',
-          pc: '10318810007009063768',
-          bic: '0890009083',
-          kc: '10318810007009063768',
+          date: '25.11.1988',
+          plaintiff: {
+            birthday: '25.11.1988',
+            lastname: 'Иванова',
+            name: 'Марина',
+            surname: 'Ивановна',
+            phone: '+ 7 000 000 0000',
+            reg_address: 'г. Белгород, ул. Радости,  5-21',
+            res_address: 'г. Белгород, ул. Радости,  5-21',
+            type: 0,
+          },
+          defendant: {
+            bank: 'БЕЛГОРОДСКОЕ ОТДЕЛЕНИЕ N8592...',
+            company: 'Название компании',
+            inn: '123456789123',
+            ogrn: '123400',
+            legal_address: 'г. Белгород, ул. Радости,  5-21',
+            mailing_address: 'г. Белгород, ул. Радости,  5-21',
+            kpp: '000000000',
+            pc: '10318810007009063768',
+            bic: '0890009083',
+            kc: '10318810007009063768',
+            type: 1,
+          },
+          start: 'string',
+          end: 'string',
+          area_id: 12,
+          plaintiff_type: 1,
+          defendant_type: 1,
         }}
-        onSubmit={values => console.log(values)}
+        onSubmit={async values => {
+          addJudicialCase(values);
+          // closeModal();
+          console.log(values.date);
+          console.log(values.plaintiff.birthday);
+        }}
       >
         {({ values }) => (
           <Form>
+            {/* {console.log(values)} */}
+
             <div className='modal-body '>
               <Row className='mb-4'>
                 <Col>
-                  {console.log(values)}
-
-                  {/* <Input
-                    type='checkbox'
-                    className='me-2'
-                    id='transcribation-diarization'
-
-                    // onChange={onChangeStatusDiarization}
-                  />
-                  <Label htmlFor='diarization-time' className='mb-0' size='md'>
-                    Почтовый адрес совпадает с юридическим
-                  </Label> */}
-
                   <FormFieldRow
                     label='uid'
                     value={values.uid}
@@ -115,109 +77,122 @@ const CreateCase = ({ isOpen, closeModal }: ICreateCase) => {
                   />
                   <FormFieldRow
                     label='case_id'
-                    value={values.uid}
+                    value={values.case_id}
                     typeInput='case_id'
                   />
                   <br />
                   <br />
-                  <CheckBox label='plaintiff' value={1} />
+                  <CheckBox
+                    label='plaintiff'
+                    value={'plaintiff_type'}
+                    initialValues={values}
+                  />
                   <FormFieldRow
                     label='familyName'
-                    value={values.uid}
+                    value={values.plaintiff.lastname}
                     typeInput='string'
                   />
 
                   <FormFieldRow
                     label='name'
-                    value={values.uid}
+                    value={values.plaintiff.name}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='surname'
-                    value={values.uid}
+                    value={values.plaintiff.surname}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='birthday'
-                    value={values.uid}
+                    value={values.plaintiff.birthday}
                     typeInput='date'
                   />
                   <FormFieldRow
                     label='reg_address'
-                    value={values.uid}
+                    value={values.plaintiff.reg_address}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='res_address'
-                    value={values.uid}
+                    value={values.plaintiff.res_address}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='phone'
-                    value={values.uid}
+                    value={values.plaintiff.phone}
                     typeInput='string'
                   />
                 </Col>
+
                 <Col>
                   <FormFieldRow
                     label='date'
-                    value={values.uid}
+                    value={values.date}
                     typeInput='date'
                   />
                   <br />
                   <br />
-                  <CheckBox label='defendant' value={1} />
+                  <CheckBox
+                    label='defendant'
+                    value={'defendant_type'}
+                    initialValues={values}
+                  />
 
                   <FormFieldRow
                     label='inn'
-                    value={values.uid}
+                    value={values.defendant.inn}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='ogrn'
-                    value={values.uid}
+                    value={values.defendant.ogrn}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='company'
-                    value={values.uid}
+                    value={values.defendant.company}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='legal_address'
-                    value={values.uid}
+                    value={values.defendant.legal_address}
                     typeInput='string'
                   />
-                  <CheckBox label='' value={1} />
+                  <CheckBox
+                    label=''
+                    value={'defendant_type'}
+                    initialValues={values}
+                  />
 
                   <FormFieldRow
                     label='mailing_address'
-                    value={values.uid}
+                    value={values.defendant.mailing_address}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='kpp'
-                    value={values.uid}
+                    value={values.defendant.kpp}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='pc'
-                    value={values.uid}
+                    value={values.defendant.pc}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='bic'
-                    value={values.uid}
+                    value={values.defendant.bic}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='bank'
-                    value={values.uid}
+                    value={values.defendant.bank}
                     typeInput='string'
                   />
                   <FormFieldRow
                     label='kc'
-                    value={values.uid}
+                    value={values.defendant.kc}
                     typeInput='string'
                   />
                 </Col>

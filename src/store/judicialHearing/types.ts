@@ -51,6 +51,40 @@ export interface IJudicialHearingData {
   participants: IParticipants[];
   documents?: IDocument[];
 }
+//===
+export interface IJudicialCaseAdd {
+  uid: string;
+  case_id: string;
+  date: string;
+  plaintiff: {
+    birthday: string;
+    lastname: string;
+    name: string;
+    surname: string;
+    phone: string;
+    reg_address: string;
+    res_address: string;
+    type: number;
+  };
+  defendant: {
+    bank: string;
+    company: string;
+    inn: string;
+    ogrn: string;
+    legal_address: string;
+    mailing_address: string;
+    kpp: string;
+    pc: string;
+    bic: string;
+    kc: string;
+    type: number;
+  };
+  start: string;
+  end: string;
+  area_id: number;
+  plaintiff_type: number;
+  defendant_type: number;
+}
 
 export interface IItemHearings {
   number: string;
@@ -120,6 +154,8 @@ export interface IDataInfoJudicialHearingRequest {
 }
 
 export type IDataAddJudicialHearingRequest = IJudicialHearingData;
+//===
+export type IDataAddJudicialCaseRequest = IJudicialCaseAdd;
 
 export type IDataUpdateParticipantsRequest = {
   meeting_id: string;

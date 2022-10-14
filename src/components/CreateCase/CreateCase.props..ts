@@ -1,5 +1,7 @@
+import { IJudicialCaseAdd } from 'store/judicialHearing/types';
+
 export interface ICreateCase {
   isOpen: boolean;
   closeModal: () => void;
-  // actionModal: () => void;
+  // addJudicialCase: (data: IJudicialCaseAdd) => {};
 }

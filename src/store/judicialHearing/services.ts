@@ -1,7 +1,13 @@
 import axiosApi from 'utils/api_helper';
-import {SERVER_URL, ENDPOINTS, SERVER_HOST, SERVER_PORT} from 'constants/api_endpoints';
+import {
+  SERVER_URL,
+  ENDPOINTS,
+  SERVER_HOST,
+  SERVER_PORT,
+} from 'constants/api_endpoints';
 import {
   IDataAddJudicialHearingRequest,
+  IDataAddJudicialCaseRequest,
   IDataLoadFileRequest,
   IDataUpdateParticipantsRequest,
   IDataGetJudicialCaseRequest,
@@ -39,11 +45,15 @@ export default class JudicialHearings {
       data,
     );
   }
+  //===
+  static async addJudicialCase(data: IDataAddJudicialCaseRequest) {
+    return axiosApi.post(`${SERVER_URL}/api/cases/add`, data);
+  }
 
   static async updateJudicialHearingStatus(data) {
     return axiosApi.put(
       `${SERVER_URL}/${ENDPOINTS.JUDICIAL_HEARINGS}/status/${data.id}`,
-      {status: data.mode}
+      { status: data.mode },
     );
   }
 
@@ -77,25 +87,23 @@ export default class JudicialHearings {
   }
 
   static async getHtmlFile(path: string) {
-    return axiosApi.get(
-      `${SERVER_HOST}:${SERVER_PORT}/${path}`,
-      {headers: {
-          "Cache-Control": "no-cache"
-        }}
-    )
+    return axiosApi.get(`${SERVER_HOST}:${SERVER_PORT}/${path}`, {
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    });
   }
 
-  static async updateDocumentText({text, id} : {text: Blob, id: number}) {
+  static async updateDocumentText({ text, id }: { text: Blob; id: number }) {
     let formData = new FormData();
     formData.append('document', text);
     return axiosApi.post(
-      `${SERVER_URL}/${ENDPOINTS.DOCUMENTS}/update/${id}`, formData
-    )
+      `${SERVER_URL}/${ENDPOINTS.DOCUMENTS}/update/${id}`,
+      formData,
+    );
   }
 
-  static async deleteDocument(id : number) {
-    return axiosApi.delete(
-      `${SERVER_URL}/${ENDPOINTS.DOCUMENTS}/delete/${id}`
-    )
+  static async deleteDocument(id: number) {
+    return axiosApi.delete(`${SERVER_URL}/${ENDPOINTS.DOCUMENTS}/delete/${id}`);
   }
 }
